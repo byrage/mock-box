@@ -1,0 +1,9 @@
+pluginManagement {
+    plugins {
+        id 'com.diffplug.spotless' version "${spotlessVersion}"
+    }
+}
+
+rootProject.name = 'mock-box'
+
+include 'mock-box-core'

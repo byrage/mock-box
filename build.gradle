@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'com.diffplug.spotless'
+}
+
+apply from: 'publishing.gradle'
+
+subprojects {
+    group = "${groupId}"
+    version = "${releaseVersion}"
+
+    repositories {
+        mavenCentral()
+    }
+
+    sourceCompatibility = project.javaVersion
+    targetCompatibility = project.javaVersion
+
+    apply plugin: 'com.diffplug.spotless'
+
+    dependencies {
+        testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+        testImplementation "org.assertj:assertj-core:${assertjVersion}"
+        compileOnly "com.google.code.findbugs:jsr305:${findbugsVersion}" // Relate-plugin: spotless
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    tasks.register('unitTest', Test) {
+        group = 'verification'
+        useJUnitPlatform {
+            excludeTags('integration')
+        }
+    }
+
+    tasks.register('integrationTest', Test) {
+        group = 'verification'
+        useJUnitPlatform {
+            includeTags('integration')
+        }
+    }
+
+    spotless {
+        java {
+            googleJavaFormat().aosp()
+        }
+    }
+}
