@@ -1,0 +1,52 @@
+package io.mockbox.core.http.handler;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.mockbox.core.http.HttpMethod;
+import io.netty.handler.codec.http.HttpHeaderNames;
+import io.netty.handler.codec.http.HttpHeaderValues;
+import java.util.function.BiFunction;
+import org.reactivestreams.Publisher;
+import reactor.core.publisher.Mono;
+import reactor.netty.http.server.HttpServerRequest;
+import reactor.netty.http.server.HttpServerResponse;
+
+public final class HttpJsonHandler implements HttpHandler {
+    private final HttpMethod method;
+    private final String uri;
+    private final int statusCode;
+    private final Object jsonResponse;
+    private final ObjectMapper objectMapper;
+
+    public HttpJsonHandler(HttpMethod method, String uri, int statusCode, Object jsonResponse) {
+        this.method = method;
+        this.uri = uri;
+        this.statusCode = statusCode;
+        this.jsonResponse = jsonResponse;
+        this.objectMapper = new ObjectMapper();
+    }
+
+    public HttpJsonHandler(HttpMethod method, String uri, Object jsonResponse) {
+        this(method, uri, 200, jsonResponse);
+    }
+
+    public HttpMethod getMethod() {
+        return method;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public BiFunction<HttpServerRequest, HttpServerResponse, Publisher<Void>> handle() {
+        return (request, response) -> {
+            try {
+                return response.status(statusCode)
+                        .header(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
+                        .sendString(Mono.just(objectMapper.writeValueAsString(jsonResponse)));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+}
