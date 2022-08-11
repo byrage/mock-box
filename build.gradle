@@ -4,6 +4,7 @@ plugins {
 }
 
 apply from: 'publishing.gradle'
+apply from: 'lint.gradle'
 
 subprojects {
     group = "${groupId}"
@@ -17,13 +18,11 @@ subprojects {
     targetCompatibility = project.javaVersion
 
     apply plugin: 'java'
-    apply plugin: 'com.diffplug.spotless'
 
     dependencies {
         testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
         testImplementation "org.assertj:assertj-core:${assertjVersion}"
-        compileOnly "com.google.code.findbugs:jsr305:${findbugsVersion}" // Relate-plugin: spotless
     }
 
     tasks.named('test') {
@@ -41,12 +40,6 @@ subprojects {
         group = 'verification'
         useJUnitPlatform {
             includeTags('integration')
-        }
-    }
-
-    spotless {
-        java {
-            googleJavaFormat().aosp()
         }
     }
 }
