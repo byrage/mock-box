@@ -7,7 +7,7 @@ apply from: 'publishing.gradle'
 
 subprojects {
     group = "${groupId}"
-    version = "${releaseVersion}"
+    version = "${projectVersion}"
 
     repositories {
         mavenCentral()
