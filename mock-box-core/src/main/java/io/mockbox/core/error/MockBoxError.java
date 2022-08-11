@@ -1,7 +1,8 @@
 package io.mockbox.core.error;
 
 public enum MockBoxError {
-    NOT_SUPPORT_MODE("M0001", "Not support mode");
+    NOT_SUPPORT_MODE("M0001", "Not support mode"),
+    INVALID_JSON_DATA("M0002", "Invalid json data");
 
     private final String code;
     private final String message;
@@ -13,9 +14,5 @@ public enum MockBoxError {
 
     public String getDisplayErrorMessage() {
         return "[" + code + "] " + message;
-    }
-
-    public String getDisplayErrorMessage(String appendMessage) {
-        return getDisplayErrorMessage() + " :: " + appendMessage;
     }
 }

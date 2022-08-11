@@ -2,6 +2,8 @@ package io.mockbox.core.http.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.mockbox.core.error.MockBoxError;
+import io.mockbox.core.error.MockBoxException;
 import io.mockbox.core.http.HttpMethod;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
@@ -18,16 +20,30 @@ public final class HttpJsonHandler implements HttpHandler {
     private final Object jsonResponse;
     private final ObjectMapper objectMapper;
 
-    public HttpJsonHandler(HttpMethod method, String uri, int statusCode, Object jsonResponse) {
+    public HttpJsonHandler(
+            HttpMethod method,
+            String uri,
+            int statusCode,
+            Object jsonResponse,
+            ObjectMapper objectMapper) {
         this.method = method;
         this.uri = uri;
         this.statusCode = statusCode;
         this.jsonResponse = jsonResponse;
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = objectMapper;
+    }
+
+    public HttpJsonHandler(HttpMethod method, String uri, int statusCode, Object jsonResponse) {
+        this(method, uri, statusCode, jsonResponse, new ObjectMapper());
+    }
+
+    public HttpJsonHandler(
+            HttpMethod method, String uri, Object jsonResponse, ObjectMapper objectMapper) {
+        this(method, uri, 200, jsonResponse, objectMapper);
     }
 
     public HttpJsonHandler(HttpMethod method, String uri, Object jsonResponse) {
-        this(method, uri, 200, jsonResponse);
+        this(method, uri, 200, jsonResponse, new ObjectMapper());
     }
 
     public HttpMethod getMethod() {
@@ -45,7 +61,7 @@ public final class HttpJsonHandler implements HttpHandler {
                         .header(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
                         .sendString(Mono.just(objectMapper.writeValueAsString(jsonResponse)));
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+                throw new MockBoxException(MockBoxError.INVALID_JSON_DATA, e);
             }
         };
     }

@@ -64,8 +64,7 @@ final class HttpPatchMethodPredicate
     final String uri;
     final UriPathTemplate template;
 
-    private HttpPatchMethodPredicate(
-            String uri, @Nullable HttpVersion protocol, HttpMethod method) {
+    HttpPatchMethodPredicate(String uri, @Nullable HttpVersion protocol, HttpMethod method) {
         this.protocol = protocol;
         this.uri = requireNonNull(uri, "uri");
         this.method = requireNonNull(method, "method");
@@ -75,7 +74,7 @@ final class HttpPatchMethodPredicate
     @Override
     public Map<String, String> apply(Object key) {
         Map<String, String> headers = template.match(key.toString());
-        if (null != headers && !headers.isEmpty()) {
+        if (!headers.isEmpty()) {
             return headers;
         }
         return null;
@@ -98,7 +97,7 @@ final class HttpPatchMethodPredicate
      * @author Jon Brisbin
      * @see <a href="https://tools.ietf.org/html/rfc6570">RFC 6570: URI Templates</a>
      */
-    private static final class UriPathTemplate {
+    static final class UriPathTemplate {
 
         private static final Pattern FULL_SPLAT_PATTERN = Pattern.compile("[\\*][\\*]");
         private static final String FULL_SPLAT_REPLACEMENT = ".*";

@@ -78,12 +78,10 @@ public final class Logger {
         boolean found = false;
         for (StackTraceElement element : new Throwable().getStackTrace()) {
             String className = element.getClassName();
-            if (loggerClassName.equals(className)) {
-                found = true;
-            } else if (found) {
+            if (!loggerClassName.equals(className) && !found) {
                 sourceClassName = className;
                 sourceMethodName = element.getMethodName();
-                break;
+                found = true;
             }
         }
 
