@@ -3,69 +3,78 @@ targetCompatibility = project.javaVersion
 
 jar.enabled = false
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'maven-publish'
-    apply plugin: 'signing'
+if (project.hasProperty('allowPublishing')) {
+    subprojects {
+        apply plugin: 'java'
+        apply plugin: 'maven-publish'
+        apply plugin: 'signing'
 
-    task sourcesJar(type: Jar) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-    artifacts {
-        archives sourcesJar
-    }
-    signing {
-        sign configurations.archives
-    }
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                artifactId = project.name
-                group = project.group
-                version = project.version
-                from components.java
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from sourceSets.main.allSource
+        }
+        artifacts {
+            archives sourcesJar
+        }
+        signing {
+            sign configurations.archives
+        }
+        task publishBuild(type: GradleBuild) {
+            group = 'publishing'
+            tasks = ['clean', 'build']
+        }
+        publish {
+            dependsOn 'publishBuild'
+        }
+        publishing {
+            publications {
+                mavenJava(MavenPublication) {
+                    artifactId = project.name
+                    group = project.groupId
+                    version = project.projectVersion
+                    from components.java
 
-                artifact sourcesJar
+                    artifact sourcesJar
 
-                pom {
-                    name = project.group
-                    description = 'Mock-Box is a lightweight and powerful mock library that supports testing.'
-                    url = 'https://github.com/mock-box/mock-box'
-
-                    scm {
-                        connection = 'scm:git:git://github.com/mock-box/mock-box.git'
-                        developerConnection = 'scm:git:https://github.com/mock-box/mock-box.git'
+                    pom {
+                        name = project.groupId
+                        description = 'Mock-Box is a lightweight and powerful mock library that supports testing.'
                         url = 'https://github.com/mock-box/mock-box'
-                    }
-                    licenses {
-                        license {
-                            name = 'The Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+
+                        scm {
+                            connection = 'scm:git:git://github.com/mock-box/mock-box.git'
+                            developerConnection = 'scm:git:https://github.com/mock-box/mock-box.git'
+                            url = 'https://github.com/mock-box/mock-box'
                         }
-                    }
-                    developers {
-                        developer {
-                            id = 'MockBox'
-                            name = 'MockBox'
-                            email = 'mockbox.master@gmail.com'
+                        licenses {
+                            license {
+                                name = 'The Apache License, Version 2.0'
+                                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            }
+                        }
+                        developers {
+                            developer {
+                                id = 'MockBox'
+                                name = 'MockBox'
+                                email = 'mockbox.master@gmail.com'
+                            }
                         }
                     }
                 }
             }
-        }
-        repositories {
-            maven {
-                name = 'sonatype'
-                url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            repositories {
+                maven {
+                    name = 'sonatype'
+                    url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
 
-                def releasesRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/releases/'
-                def snapshotsRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
-                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                    def releasesRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/releases/'
+                    def snapshotsRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+                    url = project.projectVersion.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
 
-                credentials {
-                    username ossrhUsername
-                    password ossrhPassword
+                    credentials {
+                        username ossrhUsername
+                        password ossrhPassword
+                    }
                 }
             }
         }

@@ -16,6 +16,7 @@ subprojects {
     sourceCompatibility = project.javaVersion
     targetCompatibility = project.javaVersion
 
+    apply plugin: 'java'
     apply plugin: 'com.diffplug.spotless'
 
     dependencies {
