@@ -18,6 +18,7 @@ subprojects {
     targetCompatibility = project.javaVersion
 
     apply plugin: 'java'
+    apply plugin: 'jacoco'
 
     dependencies {
         testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
@@ -27,6 +28,7 @@ subprojects {
 
     tasks.named('test') {
         useJUnitPlatform()
+        finalizedBy jacocoTestReport
     }
 
     tasks.register('unitTest', Test) {
@@ -42,4 +44,27 @@ subprojects {
             includeTags('integration')
         }
     }
+
+    jacocoTestReport {
+        finalizedBy jacocoTestCoverageVerification
+    }
+
+    jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                element = 'CLASS'
+                limit {
+                    counter = 'BRANCH'
+                    value = 'COVEREDRATIO'
+                    minimum = 1
+                }
+                limit {
+                    counter = 'INSTRUCTION'
+                    value = 'COVEREDRATIO'
+                    minimum = 1
+                }
+            }
+        }
+    }
+
 }
