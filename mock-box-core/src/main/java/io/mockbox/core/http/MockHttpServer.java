@@ -8,7 +8,7 @@ import java.util.List;
 import reactor.netty.DisposableServer;
 import reactor.netty.http.server.HttpServer;
 
-public class MockHttpServer {
+public final class MockHttpServer {
     private static final Logger logger = LoggerFactory.getLogger(MockHttpServer.class);
 
     private DisposableServer server;

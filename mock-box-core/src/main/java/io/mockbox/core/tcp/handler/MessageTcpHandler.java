@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 import reactor.netty.NettyInbound;
 import reactor.netty.NettyOutbound;
 
-public class MessageTcpHandler implements TcpHandler {
+public final class MessageTcpHandler implements TcpHandler {
     private final byte[] message;
 
     public MessageTcpHandler(byte[] message) {
