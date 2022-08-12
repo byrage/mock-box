@@ -46,6 +46,9 @@ subprojects {
     }
 
     jacocoTestReport {
+        reports {
+            xml.enabled true
+        }
         finalizedBy jacocoTestCoverageVerification
     }
 

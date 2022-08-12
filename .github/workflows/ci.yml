@@ -1,4 +1,4 @@
-name: Lint
+name: CI
 
 on:
   push:
@@ -20,7 +20,16 @@ jobs:
         with:
           java-version: '8'
           distribution: 'zulu'
-      - name: Build with Gradle
+      - name: Lint
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: spotlessCheck
+      - name: Test
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: test
+      - name: Report to CodeCov
+        uses: codecov/codecov-action@v3
+        with:
+          name: codecov-mock-box
+          files: ./mock-box-core/build/reports/jacoco/test/jacocoTestReport.xml
