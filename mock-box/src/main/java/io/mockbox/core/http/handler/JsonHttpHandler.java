@@ -13,14 +13,14 @@ import reactor.core.publisher.Mono;
 import reactor.netty.http.server.HttpServerRequest;
 import reactor.netty.http.server.HttpServerResponse;
 
-public final class HttpJsonHandler implements HttpHandler {
+public final class JsonHttpHandler implements HttpHandler {
     private final HttpMethod method;
     private final String uri;
     private final int statusCode;
     private final Object jsonResponse;
     private final ObjectMapper objectMapper;
 
-    public HttpJsonHandler(
+    public JsonHttpHandler(
             HttpMethod method,
             String uri,
             int statusCode,
@@ -33,16 +33,16 @@ public final class HttpJsonHandler implements HttpHandler {
         this.objectMapper = objectMapper;
     }
 
-    public HttpJsonHandler(HttpMethod method, String uri, int statusCode, Object jsonResponse) {
+    public JsonHttpHandler(HttpMethod method, String uri, int statusCode, Object jsonResponse) {
         this(method, uri, statusCode, jsonResponse, new ObjectMapper());
     }
 
-    public HttpJsonHandler(
+    public JsonHttpHandler(
             HttpMethod method, String uri, Object jsonResponse, ObjectMapper objectMapper) {
         this(method, uri, 200, jsonResponse, objectMapper);
     }
 
-    public HttpJsonHandler(HttpMethod method, String uri, Object jsonResponse) {
+    public JsonHttpHandler(HttpMethod method, String uri, Object jsonResponse) {
         this(method, uri, 200, jsonResponse, new ObjectMapper());
     }
 

@@ -1,8 +1,9 @@
-package io.mockbox.core.tcp;
+package io.mockbox.core.tcp.handler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.mockbox.core.tcp.handler.EchoTcpHandler;
+import io.mockbox.core.tcp.MockTcpServer;
+import io.mockbox.core.tcp.MockTcpServerBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
