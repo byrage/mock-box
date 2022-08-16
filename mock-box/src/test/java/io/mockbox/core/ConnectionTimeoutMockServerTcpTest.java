@@ -29,7 +29,7 @@ class ConnectionTimeoutMockServerTcpTest {
             socket.connect(new InetSocketAddress("localhost", TEST_PORT), 500);
             fail("It should be not call");
         } catch (SocketTimeoutException e) {
-            assertThat(e.getMessage()).isEqualTo("connect timed out");
+            assertThat(e.getMessage()).isEqualToIgnoringCase("Connect timed out");
         }
     }
 

@@ -42,7 +42,7 @@ class ReadTimeoutTcpHandlerTest {
             input.read(new byte[2]);
             fail("It should be not call");
         } catch (SocketTimeoutException e) {
-            assertThat(e.getMessage()).isEqualTo("Read timed out");
+            assertThat(e.getMessage()).isEqualToIgnoringCase("Read timed out");
         } finally {
             socket.close();
         }

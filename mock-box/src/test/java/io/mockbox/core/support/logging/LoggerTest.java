@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 class LoggerTest {
     private static final Logger logger = LoggerFactory.getLogger(LoggerFactoryTest.class);
-    private static final Logger logger2 = LoggerFactory.getLogger(String.class);
 
     @Test
     void testShouldBeLoggedDebug() {
