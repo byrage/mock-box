@@ -32,4 +32,4 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           name: codecov-mock-box
-          files: ./mock-box-core/build/reports/jacoco/test/jacocoTestReport.xml
+          files: ./mock-box/build/reports/jacoco/test/jacocoTestReport.xml

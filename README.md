@@ -2,30 +2,11 @@
 
 Mock-Box is a lightweight and powerful mock library that supports testing.
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.mock-box/mock-box-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.mock-box/mock-box-core)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.mock-box/mock-box/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.mock-box/mock-box)
 [![CI](https://github.com/mock-box/mock-box/actions/workflows/ci.yml/badge.svg)](https://github.com/mock-box/mock-box/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/mock-box/mock-box/branch/main/graph/badge.svg?token=WDD5JM0OOM)](https://codecov.io/gh/mock-box/mock-box)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2FProject_MockBox)](https://twitter.com/Project_MockBox)
-
-## Add Dependency
-
-### Gradle
-
-```
-testImplementation 'io.mock-box:mock-box-core:0.0.1'
-```
-
-### Maven
-
-```
-<dependency>
-  <groupId>io.mock-box</groupId>
-  <artifactId>mock-box-core</artifactId>
-  <version>0.0.1</version>
-  <scope>test</scope>
-</dependency>
-```
 
 ## How to use
 

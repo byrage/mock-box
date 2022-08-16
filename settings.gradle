@@ -6,4 +6,4 @@ pluginManagement {
 
 rootProject.name = 'mock-box'
 
-include 'mock-box-core'
+include 'mock-box'
