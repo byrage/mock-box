@@ -36,7 +36,7 @@ void tearDown() {
 @BeforeEach
 void setUp() {
     mockHttpServer = MockHttpServerBuilder.builder()
-        .addHandler(new HttpJsonHandler(HttpMethod.GET, "/hello", responseObject))
+        .addHandler(new JsonHttpHandler(HttpMethod.GET, "/hello", responseObject))
         .port(PORT_NO)
         .buildAndStart();
 }
